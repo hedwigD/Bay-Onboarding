@@ -1,111 +1,99 @@
-# Simple Ledger (Web3 dApp)
+# Simple Ledger — 간단한 웹3 가계부 dApp
 
-A minimal on‑chain personal ledger that records **income** and **expenses** via **MetaMask**.  
-It runs on the **Sepolia** test network (Chain ID `11155111`) as seen in the screenshots.
-
-> This README uses the included screenshots for illustration. Keep the README and the images in the **same folder** to render them correctly.
+**Simple Ledger**는 메타마스크로 연결해 **수입(+) / 지출(–)** 내역을 온체인에 기록하는 **아주 단순한 dApp**입니다.  
+테스트넷(예: **Sepolia**, `chainId = 11155111`)에서 동작하도록 구성되어 있습니다.
 
 ---
 
-## ✨ What it does
+## 무엇을 할 수 있나요?
 
-- Connect your wallet with **MetaMask**.
-- Choose entry **Type**: _Expense (–)_ or _Income (+)_.
-- Fill in **Amount (integer)**, **Category**, and **Memo**.
-- Click **Add Entry** → confirm the MetaMask transaction.
-- The **My Balance** panel shows the latest entries and the running total.
-
----
-
-## 🖼️ UI at a Glance
-
-### Landing / Connect
-![Landing & MetaMask unlock](9313b541-e0a6-4a02-8227-bfb0cfd5b521.png)
-
-### Choose Type
-![Type: Expense or Income](0c955a94-863e-4a73-ba3a-9fb8231d22af.png)
-
-### Enter Amount
-![Amount input](7e260203-7ef2-4fb2-ac5e-c19f49660db7.png)
-
-### Category & Memo
-![Category and Memo](f64d0a35-6536-4811-b6ec-4095b6d14aa0.png)
-
-### MetaMask Transaction Confirmation (Sepolia)
-- Requests come from the local dev server (e.g., `localhost:5173`).
-- Example network fee shown: `0.0002 SepoliaETH`.
-- Expected finality ~ a few seconds on testnet.
-
-![MetaMask confirm](3832bef2-c684-43eb-86df-595e63f4242e.png)
-
-### Entries & Balance
-The list shows each entry with its **sign** (red for expenses, green for income), plus category and timestamp. The total is displayed on the right.
-
-![My Balance list](d7813d44-2c91-4ca2-9615-659cbeed43c4.png)
+- 메타마스크 지갑 연결
+- 항목 추가: **유형(수입/지출)**, **금액(정수)**, **카테고리**, **메모**
+- 트랜잭션 확인 후 온체인에 기록
+- **My Balance**에서 최근 항목과 합계 확인
 
 ---
 
-## 🧩 Fields
+## 사용 방법
 
-| Field | Description | Example |
+1. 브라우저에서 dApp을 엽니다.
+2. 메타마스크로 지갑을 **연결**합니다.
+3. 폼에서 **유형, 금액, 카테고리, 메모**를 입력합니다.
+4. **Add Entry** 버튼 클릭 → 메타마스크 팝업에서 **확인(Confirm)** 합니다.
+5. 필요하면 **Refresh** 버튼으로 최신 상태를 불러옵니다.
+
+> 메타마스크가 잠겨 있으면 비밀번호 입력창이 먼저 뜰 수 있어요.
+
+---
+
+## 필드 설명
+
+| 필드 | 내용 | 예시 |
 |---|---|---|
-| **Type** | Income (+) or Expense (–) | _Expense (–)_ |
-| **Amount (integer)** | Positive integer; sign is applied by **Type** | `25000` |
-| **Category** | Freeform category label | `Food`, `Salary`, `Transport` |
-| **Memo** | Short note for the entry | `Lunch`, `good` |
+| **Type** | `Income (+)` 또는 `Expense (–)` | Expense (–) |
+| **Amount** | **양의 정수**만 입력, 부호는 Type에 따라 적용 | 25000 |
+| **Category** | 자유 입력 카테고리 | Food / Salary / Transport |
+| **Memo** | 간단한 메모 | Lunch / good |
 
-> The **running balance** is computed as: sum of all incomes minus sum of all expenses.
-
----
-
-## 🔐 Wallet & Network
-
-- **Wallet**: MetaMask (browser extension)
-- **Network**: Sepolia testnet (`chainId = 11155111`)
-- **Fee**: Paid in SepoliaETH (test ETH). You can use a faucet to obtain test ETH for development.
-
-> If MetaMask is **locked**, you’ll be prompted for a password before confirming transactions.
+합계는 **수입 합 – 지출 합**으로 계산됩니다.
 
 ---
 
-## 🔄 Typical Flow
+## 지갑 & 네트워크
 
-1. Open the dApp in your browser.
-2. Click **Connect MetaMask** (or the dApp will prompt on the first transaction).
-3. Select **Type**, enter **Amount**, **Category**, and **Memo**.
-4. Click **Add Entry** → **Confirm** in MetaMask.
-5. Wait for confirmation, then click **Refresh** if needed to pull the latest on‑chain state.
+- **지갑**: MetaMask (브라우저 확장)
+- **네트워크**: Sepolia 테스트넷 (`11155111`)
+- **수수료**: SepoliaETH가 필요합니다(테스트넷 파우셋 이용).
 
 ---
 
-## 🧪 Notes for Testing
+## 스크린샷(이미지) 넣는 방법
 
-- Ensure MetaMask is set to **Sepolia**. If your balance is 0, acquire test ETH.
-- If you see _“Request from localhost:5173”_, that’s expected during local development.
-- Network speed and gas fees vary; screenshots show an **example** transaction only.
+> 이미지 파일은 **프로젝트 리포지토리 내 적절한 폴더**(예: `docs/images/`)에 넣고, README에서는 **상대 경로**로 참조하는 것이 가장 안전합니다.
+
+### 1) 마크다운 방식(권장)
+```md
+![메타마스크 잠금 해제 화면](docs/images/metamask-unlock.png)
+![타입 선택 드롭다운](docs/images/type-select.png)
+![금액 입력](docs/images/amount-input.png)
+![카테고리/메모](docs/images/category-memo.png)
+![메타마스크 확인 팝업](docs/images/metamask-confirm.png)
+![항목 리스트 & 합계](docs/images/balance-list.png)
+```
+
+### 2) HTML 태그 방식(세부 제어 필요 시)
+```html
+<p align="center">
+  <img src="docs/images/metamask-unlock.png" alt="MetaMask Unlock" width="720" />
+</p>
+```
+
+#### 이미지가 깨질 때 체크리스트
+- 경로가 **상대 경로**인지 확인하세요. (`/절대경로` 사용 금지)
+- **대소문자**가 파일명과 일치하는지 확인하세요. (리눅스/깃은 대소문자 구분)
+- 깃헙에서 보려면 이미지를 **커밋/푸시**했는지 확인하세요.
+- README와 이미지를 **같은 브랜치**에 두었는지 확인하세요.
 
 ---
 
-## 🛠️ Project Structure (high‑level)
+## 간단한 로컬 개발 메모
 
-- **Frontend (web dApp)**: Presents the form, lists entries, and shows the running total.
-- **Wallet integration**: Uses MetaMask for account access and transaction signing.
-- **On‑chain storage/logic**: A smart contract (not shown here) records ledger entries and returns the current state for rendering.
-
-> Implementation details (framework/lib versions, contract ABI, deployment address) may vary across your environment. Add them here for your team as needed.
+- 개발 서버 예시: `localhost:5173`  
+- 트랜잭션 요청 시 메타마스크 팝업에 **요청자: localhost:5173**이 표시될 수 있습니다(정상).
+- 네트워크가 Sepolia가 아니면 **체인 전환** 안내가 뜰 수 있습니다.
 
 ---
 
-## ✅ Checklist for Your Own README
+## 체크리스트(팀 문서화용)
 
-- [ ] Add the **contract address** and **ABI** you’re using.
-- [ ] Document the **transaction method** (e.g., `addEntry(type, amount, category, memo)`).
-- [ ] Describe how **balance** is derived (on‑chain or client computed).
-- [ ] Note any **environment variables** or **build steps** (e.g., `VITE_*`, RPC URL).
-- [ ] Include **faucet**/test‑ETH instructions for Sepolia.
+- [ ] 사용 중인 **컨트랙트 주소**와 **ABI** 추가
+- [ ] 트랜잭션 메서드(예: `addEntry(type, amount, category, memo)`) 문서화
+- [ ] 합계 계산이 **온체인/클라이언트** 중 어디에서 이뤄지는지 명시
+- [ ] `.env` / RPC URL 등 **환경 변수** 정리
+- [ ] 테스트넷 파우셋 링크 정리
 
 ---
 
-## 📄 License
+## 라이선스
 
-Add your chosen license (MIT/Apache‑2.0/etc.).
+원하는 라이선스를 추가하세요 (예: MIT).
