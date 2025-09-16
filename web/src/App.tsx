@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { ethers } from "ethers";
 import { SimpleLedgerABI } from "./abi/SimpleLedger";
 import { CONTRACT_ADDRESS } from "./config";
@@ -56,7 +56,9 @@ export default function App() {
         setAccount(accs[0] || "");
       };
       const handleChainChanged = (_: string) => {
-        window.location.reload();
+        // 디버깅을 위해 임시 주석 처리
+        console.log("Chain changed event:", _);
+        // window.location.reload();
       };
       ethereum.on("accountsChanged", handleAccountsChanged);
       ethereum.on("chainChanged", handleChainChanged);
@@ -67,27 +69,35 @@ export default function App() {
     }
   }, []);
 
-  const refresh = async () => {
+  const refresh = useCallback(async () => {
     if (!contract || !account) return;
-    const bal: bigint = await contract.balanceOf(account);
-    setBalance(bal);
+    try {
+      const bal: bigint = await contract.balanceOf(account);
+      setBalance(bal);
 
-    const count: bigint = await contract.entryCount(account);
-    const total = Number(count);
-    const page = await contract.entriesOf(account, 0, total);
-    // page is Entry[] struct array; ethers v6 returns objects with properties
-    const parsed: Entry[] = page.map((e: any) => ({
-      amount: BigInt(e.amount),
-      memo: e.memo,
-      category: e.category,
-      timestamp: BigInt(e.timestamp)
-    }));
-    // newest first
-    parsed.sort((a, b) => Number(b.timestamp - a.timestamp));
-    setEntries(parsed);
-  };
+      const count: bigint = await contract.entryCount(account);
+      const total = Number(count);
+      const page = await contract.entriesOf(account, 0, total);
+      // page is Entry[] struct array; ethers v6 returns objects with properties
+      const parsed: Entry[] = page.map((e: any) => ({
+        amount: BigInt(e.amount),
+        memo: e.memo,
+        category: e.category,
+        timestamp: BigInt(e.timestamp)
+      }));
+      // newest first
+      parsed.sort((a, b) => Number(b.timestamp - a.timestamp));
+      setEntries(parsed);
+    } catch (error) {
+      console.error("Error in refresh:", error);
+    }
+  }, [contract, account]);
 
-  useEffect(() => { refresh(); }, [contract, account]);
+  useEffect(() => {
+    if (contract && account) {
+      refresh();
+    }
+  }, [refresh]);
 
   const submit = async () => {
     if (!isReady) return;
